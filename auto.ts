@@ -89,8 +89,8 @@ const newChallenge = async (page: Page) => {
 };
 
 const login = async (page: Page) => {
-  await page.type('[data-test="email-input"]', process.env.USERNAME!);
-  await page.type('[data-test="password-input"]', process.env.PASSWORD!);
+  await page.type('[data-test="email-input"]', process.env.DUO_USERNAME!);
+  await page.type('[data-test="password-input"]', process.env.DUO_PASSWORD!);
   await page.click('[data-test="register-button"]');
 };
 
@@ -102,7 +102,11 @@ const needsCheckpoint = async (page: Page) =>
   !!(await page.$("[data-test='checkpoint-badge']"));
 
 const startCheckpoint = async (page: Page) => {
-  await page.click("[data-test='checkpoint-badge']");
+  await page.evaluate(() => {
+    (Array.from(
+      document.querySelectorAll("[data-test='checkpoint-badge']")
+    ).pop() as HTMLElement | undefined)?.click();
+  });
   await page.waitForSelector("[data-test='checkpoint-start-button']");
   (await page.$("[data-test='checkpoint-start-button']"))?.click();
 };
