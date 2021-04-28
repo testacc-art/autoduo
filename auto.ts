@@ -261,6 +261,10 @@ const main = async () => {
   const browser = await puppeteer.launch({
     headless: false,
     args: ["--disable-notifications"],
+    defaultViewport: {
+      width: 900,
+      height: 600,
+    },
   });
   const page = await browser.newPage();
 
@@ -278,7 +282,9 @@ const main = async () => {
       await page.click('[data-tests="close-banner"]');
     }
     if (await page.$('[data-test="notification-drawer-no-thanks-button"]')) {
-      await page.click('[data-test="notification-drawer-no-thanks-button"]');
+      await page
+        .click('[data-test="notification-drawer-no-thanks-button"]')
+        .catch(() => {});
     }
     if (await needsIntro(page)) {
       await startIntro(page);
