@@ -71,9 +71,13 @@ const newChallenge = async (page: Page) => {
       return style.backgroundColor !== "rgb(229, 229, 229)";
     });
     if (todoSkills.length > 0) {
-      todoSkills[0]?.scrollIntoView();
-      // Open panel to start skill
-      (todoSkills[0]?.firstChild as HTMLElement).click();
+      const skill = todoSkills[0];
+      const popup = document.querySelector("[data-test='skill-popout']");
+      if (popup?.parentElement !== skill) {
+        todoSkills[0]?.scrollIntoView();
+        // Open panel to start skill
+        (todoSkills[0]?.firstChild as HTMLElement).click();
+      }
       return true;
     }
     return false;
@@ -277,7 +281,6 @@ const main = async () => {
       await page.click('[data-test="back-arrow"]');
     }
     await page.waitForSelector('[data-test="skill-tree"]');
-    await page.click('[data-test="tree-section"]');
     if (await page.$('[data-tests="close-banner"]')) {
       await page.click('[data-tests="close-banner"]');
     }
