@@ -26,5 +26,5 @@ jobs:
     - name: Npm version
       shell: pwsh
       run: npm --version
-    - name: Install dependencies
+    - name: Install dependencies2
       run: yarn install
